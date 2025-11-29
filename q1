@@ -1,1 +1,11 @@
+###주식데이터 크롤링
+
+pip install finance-datareader
+
+import FinanceDataReader as fdr
+import pandas as pd
+
+# 삼성전자(005930)의 전체 기간 데이터를 가져옵니다.
+df_samsung = fdr.DataReader('005930')
+
 
