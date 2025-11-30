@@ -32,8 +32,53 @@ def sqrt(x):
 # 람다 함수(lambda 매개변수1, 매개변수2: statement) #
 divide_lam=lambda x, n:x/n
 
+# 데이터프레임 열, 행 선택하기 #
+df.col1 / df.loc['index1'] / df.iloc[0]
+
+# csv와 Excel 파일 불러오기 #
+data_csv = pd.read_csv(파일경로 C:\Users~ 혹은 파일명'https://~)
+data_excel = pd.read_excel(파일경로 혹은 파일명, sheet_name='kospi')
+
+# 데이터프레임 csv 혹은 excel 파일로 저장하기 #
+data_csv.to_csv('data.csv')
+data_excel.to_excel('data.xlsx')
+
+# 데이터프레임 사용함수 #
+df['sex'].value_counts()
+df['survived'].mean() : 평균 / .min / .max / .median()
+
+# 인덱스 다루기 # 
+df.set_index('열', inplace = True) : '열'을 기준으로 인덱스 변경
+df.sort_index(inplace=True) : 오름차순
+df.sort_index(inplace=True,ascending=False) : 내림차순
+df.sort_values('열') : 열 값 기준 오름차순
+df.reset_index(inplace=True) : 인덱스 원상복구
+
+# 필터링 #
+filter_bool = (df['열'] == 4)&(df['열2'] >= 100)
+df.loc[filter_bool, ]
+
+filter_isin = df['name'].isin(['열1'],['열2'],['열3']) : 원하는 열 필터링
+
+# 데이터프레임 결합 #
+pd.concat([df1,df2,df3]) : 행 기준 결합
+pd.concat([df1,df4], axis=1) : 열 기준 결합
+pd.concat([df1,df4], axis=1, join="inner") : 열 기준 교집합 결합
+
+df1.join(df2) : df1기준 df2 결합
+
+# 피벗 #
+df.pivot_table(index='열1', columns='열2', values='열3', aggfunc='mean') : 열1, 열2를 기준으로 열3의 평균을 구한다
 
 ### 자주 쓰이는 함수 ###
-replace(‘전’, ‘후’)
-datetime.dateime.now() = a / a.date() / a.time() / a.strftime(‘%Y-%m-%d’)
-time.sleep(1)
+replace(‘전’, ‘후’) : 전, 후 데이터 교체
+datetime.dateime.now() = a / a.date() / a.time() / a.strftime(‘%Y-%m-%d’) : 날짜, 시간
+time.sleep(1) : 실행 속도 조절
+df.shape : 데이터프레임 크기 반환 (행, 열)
+df.info() : 데이터프레임 기본정보 확인
+value_counts(normalize=True).sort_index() : 비중 계산 및 인덱스 정렬
+df.dropna() : 데이터에 결측치 존재 시 행 삭제
+df.dropna(axis=1) : 데이터에 결측치 존재 시 열 삭제
+df.dropna(axis=1, thresh=300) : 결측치가 300개 이상 갖는 열을 삭제
+df_2['열'].fillna(대체값, inplace = True) : 해당 열 결측치를 대체값으로 변경하며 원본객체가 변경됨
+df['열'].unique() : 해당열의 고유값들 반환
