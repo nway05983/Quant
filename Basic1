@@ -78,6 +78,8 @@ df.unstack() : 행 인덱스를 열 인덱스로 변환
 df.groupby(['열1'])
 df.groupby(['열1'])['열2].mean()
 
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ### 데이터 시각화(p.110) ###
 import seaborn as sns : 고급시각화
 import matplotlib.pyplot as plt : bar, scatter, hist, plot
@@ -99,15 +101,174 @@ axes[1].set_ylabel( )
 axes[1].set_title( )
 plt.subplots_adjust(left= ,right= ,bottom= ,top = ,wspace= ,hspace=) : 여백 간격조정
 
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SQL ###
+
+# 열 추가 및 삭제 #
+alter table goods add column goods_name varchar(100); : goods_name 열 추가
+alter table goods drop column goods_name : goods_name 열 삭제
+
+# 열 선택 #
+select 열1, 열2 : 열 자리에 * 입력 시 전체 선택
+from 테이블 이름;
+select 열1 as 별명 : 열1 이름 별명으로 수정
+select '값' as 추가열 : 추가열을 생성하고 '값' 입력
+
+# 중복 제거 #
+select distinct 열1 : 열1 내 중복된 값 삭제
+
+# 조건 생성(where) #
+select goods_name
+from goods
+where goods_classify ='의류'
+
+# 집약함수 (count, sum, avg) #
+select count(열1)
+from goods; : 열1의 개수 반환
+
+# 그룹화 (group by) #
+select 열1, count(*)
+from 테이블1
+group by 열2; : 열2를 기준으로 열1의 값을 세라
+
+select buy_price, count(*)
+from goods
+where goods_classify ='의류'
+group by buy_price; : 상품분류가 의류인 애들만 모아서 구매 가격으로 분류하고 가격의 개수 데이터 추출
+
+select goods_classify, avg(sell_price)
+from goods
+group by goods_classify
+having avg(sell_price) >= 2500; : 상품분류로 그룹화하고, 판매 가격 평균을 구한 다음, 판매가격 평균이 2500보다 크거나 같은 데이터 추출
+
+# 정렬 #
+select *
+from goods
+order by sell_price; : 판매가격을 기준으로 오름차순
+
+select *
+from goods
+order by sell_price desc; : 판매가격을 기준으로 내림차순
+
+# 함수 #
+abs : 절대값
+mod : 나눈 후 나머지 반환
+round : 반올림
+
+# 데이터 검색 #
+select *
+from 테이블
+where strcol like 'ddd%'; : 전방일치 / where strcol like '$ddd%'; : 중간일치 / where strcol like '%ddd'; : 후방일치 / where 열1 between 100 and 1000; : 사잇값df.loc[filter_bool, ]
+
+filter_isin = df['name'].isin(['열1'],['열2'],['열3']) : 원하는 열 필터링
+
+# 데이터프레임 결합 #
+pd.concat([df1,df2,df3]) : 행 기준 결합
+pd.concat([df1,df4], axis=1) : 열 기준 결합
+pd.concat([df1,df4], axis=1, join="inner") : 열 기준 교집합 결합
+
+df1.join(df2) : df1기준 df2 결합
+
+# 피벗 #
+df.pivot_table(index='열1', columns='열2', values='열3', aggfunc='mean') : 열1, 열2를 기준으로 열3의 평균을 구한다
+
+# 행, 열 전환 #
+df.stack() : 열 인덱스를 행 인덱스로 변환
+df.unstack() : 행 인덱스를 열 인덱스로 변환
+
+# 그룹화 #
+df.groupby(['열1'])
+df.groupby(['열1'])['열2].mean()
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### 데이터 시각화(p.110) ###
+import seaborn as sns : 고급시각화
+import matplotlib.pyplot as plt : bar, scatter, hist, plot
+
+# matpltlib 패키지 이용한 시각화 #
+plt.scatter(x축 지정, y축 지정)
+plt.show()
+
+plt.rc('font', family='Malgun Gothic') : 한글 사용 가능 폰트 지정
+
+fig, axes = plt.subplts(2,1,figsize=(10,6)) : 행 2개 열 1개인 다중 그래프 생성
+axes[0].scatter( , )
+axes[0].set_xlabel( )
+axes[0].set_ylabel( )
+axes[0].set_title( )
+axes[1].hist( ,bins=30) : bins는 히스토그램 간격
+axes[1].set_xlabel( )
+axes[1].set_ylabel( )
+axes[1].set_title( )
+plt.subplots_adjust(left= ,right= ,bottom= ,top = ,wspace= ,hspace=) : 여백 간격조정
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SQL ### (데이터 보관, 검색, 확인용도)
+
+# 열 추가 및 삭제 #
+alter table goods add column goods_name varchar(100); : goods_name 열 추가
+alter table goods drop column goods_name : goods_name 열 삭제
+
+# 열 선택 #
+select 열1, 열2 : 열 자리에 * 입력 시 전체 선택
+from 테이블 이름;
+select 열1 as 별명 : 열1 이름 별명으로 수정
+select '값' as 추가열 : 추가열을 생성하고 '값' 입력
+
+# 중복 제거 #
+select distinct 열1 : 열1 내 중복된 값 삭제
+
+# 조건 생성(where) #
+select goods_name
+from goods
+where goods_classify ='의류'
+where buy_price in (320,500,5000); : buy_price가 320 or 500 or 5000인 데이터 추출
+
+# 집약함수 (count, sum, avg) #
+select count(열1)
+from goods; : 열1의 개수 반환
+
+# 그룹화 (group by) #
+select 열1, count(*)
+from 테이블1
+group by 열2; : 열2를 기준으로 열1의 값을 세라
+
+select buy_price, count(*)
+from goods
+where goods_classify ='의류'
+group by buy_price; : 상품분류가 의류인 애들만 모아서 구매 가격으로 분류하고 가격의 개수 데이터 추출
+
+select goods_classify, avg(sell_price)
+from goods
+group by goods_classify
+having avg(sell_price) >= 2500; : 상품분류로 그룹화하고, 판매 가격 평균을 구한 다음, 판매가격 평균이 2500보다 크거나 같은 데이터 추출
+
+# 정렬 #
+select *
+from goods
+order by sell_price; : 판매가격을 기준으로 오름차순
+
+select *
+from goods
+order by sell_price desc; : 판매가격을 기준으로 내림차순
+
+# 함수 #
+abs : 절대값
+mod : 나눈 후 나머지 반환
+round : 반올림
+
+# 데이터 검색 #
+select *
+from 테이블
+where strcol like 'ddd%'; : 전방일치 / where strcol like '$ddd%'; : 중간일치 / where strcol like '%ddd'; : 후방일치 / where 열1 between 100 and 1000; : 사잇값
 
 
 
 
-
-
-
-
-
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### 자주 쓰이는 함수 ###
 replace(‘전’, ‘후’) : 전, 후 데이터 교체
