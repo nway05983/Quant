@@ -70,9 +70,48 @@ df1.join(df2) : df1기준 df2 결합
 # 피벗 #
 df.pivot_table(index='열1', columns='열2', values='열3', aggfunc='mean') : 열1, 열2를 기준으로 열3의 평균을 구한다
 
+# 행, 열 전환 #
+df.stack() : 열 인덱스를 행 인덱스로 변환
+df.unstack() : 행 인덱스를 열 인덱스로 변환
+
+# 그룹화 #
+df.groupby(['열1'])
+df.groupby(['열1'])['열2].mean()
+
+### 데이터 시각화(p.110) ###
+import seaborn as sns : 고급시각화
+import matplotlib.pyplot as plt : bar, scatter, hist, plot
+
+# matpltlib 패키지 이용한 시각화 #
+plt.scatter(x축 지정, y축 지정)
+plt.show()
+
+plt.rc('font', family='Malgun Gothic') : 한글 사용 가능 폰트 지정
+
+fig, axes = plt.subplts(2,1,figsize=(10,6)) : 행 2개 열 1개인 다중 그래프 생성
+axes[0].scatter( , )
+axes[0].set_xlabel( )
+axes[0].set_ylabel( )
+axes[0].set_title( )
+axes[1].hist( ,bins=30) : bins는 히스토그램 간격
+axes[1].set_xlabel( )
+axes[1].set_ylabel( )
+axes[1].set_title( )
+plt.subplots_adjust(left= ,right= ,bottom= ,top = ,wspace= ,hspace=) : 여백 간격조정
+
+
+
+
+
+
+
+
+
+
+
 ### 자주 쓰이는 함수 ###
 replace(‘전’, ‘후’) : 전, 후 데이터 교체
-datetime.dateime.now() = a / a.date() / a.time() / a.strftime(‘%Y-%m-%d’) : 날짜, 시간
+datetime.dateime.now() = a / a.date() / a.time() / a.strftime(‘%Y-%m-%d’) : 날짜, 시간 / df['열1] = pd.to_datetime(df['pickup'])
 time.sleep(1) : 실행 속도 조절
 df.shape : 데이터프레임 크기 반환 (행, 열)
 df.info() : 데이터프레임 기본정보 확인
@@ -82,3 +121,4 @@ df.dropna(axis=1) : 데이터에 결측치 존재 시 열 삭제
 df.dropna(axis=1, thresh=300) : 결측치가 300개 이상 갖는 열을 삭제
 df_2['열'].fillna(대체값, inplace = True) : 해당 열 결측치를 대체값으로 변경하며 원본객체가 변경됨
 df['열'].unique() : 해당열의 고유값들 반환
+df.to_frame() : 시리즈를데이터프레임으로 변경
