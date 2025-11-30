@@ -176,4 +176,4 @@ df.dropna(axis=1) : 데이터에 결측치 존재 시 열 삭제
 df.dropna(axis=1, thresh=300) : 결측치가 300개 이상 갖는 열을 삭제
 df_2['열'].fillna(대체값, inplace = True) : 해당 열 결측치를 대체값으로 변경하며 원본객체가 변경됨
 df['열'].unique() : 해당열의 고유값들 반환
-df.to_frame() : 시리즈를데이터프레임으로 변경
+df.to_frame() : 시리즈를 데이터프레임으로 변경
